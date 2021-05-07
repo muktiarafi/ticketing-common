@@ -1,6 +1,7 @@
 package common
 
 import (
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -11,7 +12,7 @@ type UserPayload struct {
 	Email string
 }
 
-var jwtKey = "example"
+var jwtKey = os.Getenv("JWT_KEY")
 
 type claims struct {
 	*UserPayload
