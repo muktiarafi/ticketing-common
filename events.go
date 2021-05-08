@@ -2,6 +2,7 @@ package common
 
 import (
 	"context"
+	"log"
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-kafka/v2/pkg/kafka"
@@ -55,7 +56,7 @@ type (
 	}
 )
 
-type EventHandler func(msg *message.Message)
+type EventHandler func(msg *message.Message) error
 
 func CreatePublisher(brokers []string) (message.Publisher, error) {
 	publisher, err := kafka.NewPublisher(
@@ -109,7 +110,9 @@ func (c *Consumer) On(topic string, eventHandler EventHandler) error {
 	}
 	go func() {
 		for msg := range messages {
-			eventHandler(msg)
+			if err := eventHandler(msg); err != nil {
+				log.Fatal(err)
+			}
 		}
 	}()
 
