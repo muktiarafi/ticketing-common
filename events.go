@@ -82,7 +82,7 @@ func CreateSubscriber(brokers []string, consumerGroup string) (message.Subscribe
 			ConsumerGroup:         consumerGroup,
 		},
 		watermill.NewStdLogger(
-			true,
+			false,
 			false,
 		),
 	)
