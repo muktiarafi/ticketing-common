@@ -20,6 +20,25 @@ const (
 	PaymentCreated = "payment:created"
 )
 
+type (
+	TicketCreatedEvent struct {
+		ID      int     `msgpack:"id"`
+		Version int     `msgpack:"version"`
+		Title   string  `msgpack:"title"`
+		Price   float64 `msgpack:"price"`
+		UserID  int     `msgpack:"userId"`
+	}
+
+	TicketUpdatedEvent struct {
+		ID      int     `msgpack:"id"`
+		Version int     `msgpack:"version"`
+		Title   string  `msgpack:"title"`
+		Price   float64 `msgpack:"price"`
+		UserID  int     `msgpack:"userId"`
+		OrderID int     `msgpack:"orderId"`
+	}
+)
+
 type EventHandler func(msg *message.Message)
 
 func CreatePublisher(brokers []string) (message.Publisher, error) {
