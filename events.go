@@ -108,13 +108,10 @@ func (c *Consumer) On(topic string, eventHandler EventHandler) error {
 	if err != nil {
 		return err
 	}
-	go func() {
-		for msg := range messages {
-			if err := eventHandler(msg); err != nil {
-				log.Fatal(err)
-			}
+	for msg := range messages {
+		if err := eventHandler(msg); err != nil {
+			log.Fatal(err)
 		}
-	}()
-
+	}
 	return nil
 }
