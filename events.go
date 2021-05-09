@@ -58,13 +58,13 @@ type (
 
 type EventHandler func(msg *message.Message) error
 
-func CreatePublisher(brokers []string) (message.Publisher, error) {
+func CreatePublisher(brokers []string, logger watermill.LoggerAdapter) (message.Publisher, error) {
 	publisher, err := kafka.NewPublisher(
 		kafka.PublisherConfig{
 			Brokers:   brokers,
 			Marshaler: kafka.DefaultMarshaler{},
 		},
-		watermill.NewStdLogger(false, false),
+		logger,
 	)
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func CreatePublisher(brokers []string) (message.Publisher, error) {
 	return publisher, nil
 }
 
-func CreateSubscriber(brokers []string, consumerGroup string) (message.Subscriber, error) {
+func CreateSubscriber(brokers []string, consumerGroup string, logger watermill.LoggerAdapter) (message.Subscriber, error) {
 	kafkaSubscriber, err := kafka.NewSubscriber(
 		kafka.SubscriberConfig{
 			Brokers:               brokers,
@@ -81,10 +81,7 @@ func CreateSubscriber(brokers []string, consumerGroup string) (message.Subscribe
 			OverwriteSaramaConfig: kafka.DefaultSaramaSubscriberConfig(),
 			ConsumerGroup:         consumerGroup,
 		},
-		watermill.NewStdLogger(
-			false,
-			false,
-		),
+		logger,
 	)
 	if err != nil {
 		return nil, err
