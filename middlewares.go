@@ -12,8 +12,10 @@ func RequireAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		const op = "RequireAuth"
 		if err != nil {
 			return &Error{
-				Op:  op,
-				Err: err,
+				Op:      op,
+				Code:    EINVALID,
+				Message: "Missing Cookie",
+				Err:     errors.New("missing cookie"),
 			}
 		}
 
