@@ -2,12 +2,14 @@ syntax = "proto3";
 
 package types;
 
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
 message OrderCreatedEvent {
-    int64 id = 1;
+    int64 id = 1 [(gogoproto.customname) = "ID"];
     string status = 2;
     int64 version = 3;
-    int64 user_id = 4;
+    int64 user_id = 4 [(gogoproto.customname) = "UserID"];
     string expires_at = 5;
-    int64 ticket_id = 6;
+    int64 ticket_id = 6 [(gogoproto.customname) = "TicketID"];
     double ticket_price = 7;
 }
