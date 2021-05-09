@@ -108,10 +108,15 @@ func (c *Consumer) On(topic string, eventHandler EventHandler) error {
 	if err != nil {
 		return err
 	}
+	go process(messages, eventHandler)
+
+	return nil
+}
+
+func process(messages <-chan *message.Message, eventHandler EventHandler) {
 	for msg := range messages {
 		if err := eventHandler(msg); err != nil {
 			log.Fatal(err)
 		}
 	}
-	return nil
 }
