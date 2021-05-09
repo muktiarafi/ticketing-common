@@ -15,7 +15,7 @@ func RequireAuth(next echo.HandlerFunc) echo.HandlerFunc {
 				Op:      op,
 				Code:    EINVALID,
 				Message: "Missing Cookie",
-				Err:     errors.New("missing cookie"),
+				Err:     err,
 			}
 		}
 
