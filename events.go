@@ -10,15 +10,15 @@ import (
 )
 
 const (
-	TicketCreated = "ticket:created"
-	TIcketUpdated = "ticket:updated"
+	TicketCreated = "ticket.created"
+	TIcketUpdated = "ticket.updated"
 
-	OrderCreated   = "order:created"
-	OrderCancelled = "order:cancelled"
+	OrderCreated   = "order.created"
+	OrderCancelled = "order.cancelled"
 
-	ExpirationComplete = "expiration:complete"
+	ExpirationComplete = "expiration.complete"
 
-	PaymentCreated = "payment:created"
+	PaymentCreated = "payment.created"
 )
 
 type (
