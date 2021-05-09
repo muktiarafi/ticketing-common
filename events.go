@@ -21,41 +21,6 @@ const (
 	PaymentCreated = "payment.created"
 )
 
-type (
-	TicketCreatedEvent struct {
-		ID      int     `msgpack:"id"`
-		Version int     `msgpack:"version"`
-		Title   string  `msgpack:"title"`
-		Price   float64 `msgpack:"price"`
-		UserID  int     `msgpack:"userId"`
-	}
-
-	TicketUpdatedEvent struct {
-		ID      int     `msgpack:"id"`
-		Version int     `msgpack:"version"`
-		Title   string  `msgpack:"title"`
-		Price   float64 `msgpack:"price"`
-		UserID  int     `msgpack:"userId"`
-		OrderID int     `msgpack:"orderId"`
-	}
-
-	OrderCreatedEvent struct {
-		ID          int     `msgpack:"id"`
-		Status      string  `msgpack:"status"`
-		Version     int     `msgpack:"version"`
-		UserID      int     `msgpack:"userId"`
-		ExpiresAt   string  `msgpack:"expiresAt"`
-		TicketID    int     `msgpack:"ticketId"`
-		TicketPrice float64 `msgpack:"ticketPrice"`
-	}
-
-	OrderCancelledEvent struct {
-		ID       int `msgpack:"id"`
-		Version  int `msgpack:"version"`
-		TicketID int `msgpack:"ticketId"`
-	}
-)
-
 type EventHandler func(msg *message.Message) error
 
 func CreatePublisher(brokers []string, logger watermill.LoggerAdapter) (message.Publisher, error) {

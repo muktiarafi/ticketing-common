@@ -9,5 +9,6 @@ require (
 	github.com/go-playground/locales v0.13.0
 	github.com/go-playground/universal-translator v0.17.0
 	github.com/go-playground/validator/v10 v10.6.0
+	github.com/gogo/protobuf v1.3.2
 	github.com/labstack/echo/v4 v4.2.2
 )

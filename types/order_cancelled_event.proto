@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package types;
+
+message OrderCancelledEvent {
+    int64 id = 1;
+    int64 version = 2;
+    int64 ticket_id = 3;
+}

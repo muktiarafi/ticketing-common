@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package types;
+
+message OrderCreatedEvent {
+    int64 id = 1;
+    string status = 2;
+    int64 version = 3;
+    int64 user_id = 4;
+    string expires_at = 5;
+    int64 ticket_id = 6;
+    double ticket_price = 7;
+}
