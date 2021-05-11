@@ -82,7 +82,7 @@ func (c *Consumer) On(topic string, eventHandler EventHandler) error {
 func process(messages <-chan *message.Message, eventHandler EventHandler) {
 	for msg := range messages {
 		if err := eventHandler(msg); err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}
 }
