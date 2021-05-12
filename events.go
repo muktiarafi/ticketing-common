@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/Shopify/sarama"
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-kafka/v2/pkg/kafka"
 	"github.com/ThreeDotsLabs/watermill/message"
@@ -39,11 +40,14 @@ func CreatePublisher(brokers []string, logger watermill.LoggerAdapter) (message.
 }
 
 func CreateSubscriber(brokers []string, consumerGroup string, logger watermill.LoggerAdapter) (message.Subscriber, error) {
+	saramaSubscriberConfig := kafka.DefaultSaramaSubscriberConfig()
+	saramaSubscriberConfig.Consumer.Offsets.Initial = sarama.OffsetOldest
+
 	kafkaSubscriber, err := kafka.NewSubscriber(
 		kafka.SubscriberConfig{
 			Brokers:               brokers,
 			Unmarshaler:           kafka.DefaultMarshaler{},
-			OverwriteSaramaConfig: kafka.DefaultSaramaSubscriberConfig(),
+			OverwriteSaramaConfig: saramaSubscriberConfig,
 			ConsumerGroup:         consumerGroup,
 		},
 		logger,
