@@ -39,18 +39,27 @@ func CreatePublisher(brokers []string, logger watermill.LoggerAdapter) (message.
 	return publisher, nil
 }
 
-func CreateSubscriber(brokers []string, consumerGroup string, logger watermill.LoggerAdapter) (message.Subscriber, error) {
+type SubscriberConfig struct {
+	Brokers       []string
+	ConsumerGroup string
+	FromBeginning bool
+	watermill.LoggerAdapter
+}
+
+func NewSubscriber(config *SubscriberConfig) (message.Subscriber, error) {
 	saramaSubscriberConfig := kafka.DefaultSaramaSubscriberConfig()
-	saramaSubscriberConfig.Consumer.Offsets.Initial = sarama.OffsetOldest
+	if config.FromBeginning {
+		saramaSubscriberConfig.Consumer.Offsets.Initial = sarama.OffsetOldest
+	}
 
 	kafkaSubscriber, err := kafka.NewSubscriber(
 		kafka.SubscriberConfig{
-			Brokers:               brokers,
+			Brokers:               config.Brokers,
 			Unmarshaler:           kafka.DefaultMarshaler{},
 			OverwriteSaramaConfig: saramaSubscriberConfig,
-			ConsumerGroup:         consumerGroup,
+			ConsumerGroup:         config.ConsumerGroup,
 		},
-		logger,
+		config.LoggerAdapter,
 	)
 	if err != nil {
 		return nil, err
