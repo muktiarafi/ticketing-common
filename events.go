@@ -24,7 +24,7 @@ const (
 
 type EventHandler func(msg *message.Message) error
 
-func CreatePublisher(brokers []string, logger watermill.LoggerAdapter) (message.Publisher, error) {
+func NewPublisher(brokers []string, logger watermill.LoggerAdapter) (message.Publisher, error) {
 	publisher, err := kafka.NewPublisher(
 		kafka.PublisherConfig{
 			Brokers:   brokers,
