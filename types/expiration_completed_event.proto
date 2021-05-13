@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package types;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+message ExpirationCompleteEvent {
+    int64 order_id = 1 [(gogoproto.customname) = "OrderID"];
+}
