@@ -9,8 +9,8 @@ import (
 )
 
 type UserPayload struct {
-	ID    int
-	Email string
+	ID    int    `json:"id"`
+	Email string `json:"email"`
 }
 
 var (
