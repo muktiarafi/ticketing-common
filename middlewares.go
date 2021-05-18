@@ -2,9 +2,35 @@ package common
 
 import (
 	"errors"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
+
+func CurrentUser(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		sub := c.Request().Header.Get("X-User")
+		email := c.Request().Header.Get("X-Email")
+
+		id, err := strconv.Atoi(sub)
+		if err != nil {
+			return &Error{
+				Op:      "CurrentUser",
+				Code:    EINVALID,
+				Message: "Malformed payload",
+				Err:     err,
+			}
+		}
+		payload := &UserPayload{
+			ID:    id,
+			Email: email,
+		}
+
+		c.Set("userPayload", payload)
+
+		return next(c)
+	}
+}
 
 func RequireAuth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
