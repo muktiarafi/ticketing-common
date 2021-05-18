@@ -14,10 +14,11 @@ type Error struct {
 }
 
 const (
-	ECONCLICT = "conflict"
-	EINTERNAL = "internal"
-	EINVALID  = "invalid"
-	ENOTFOUND = "not_found"
+	ENOTAUTHORIZED = "not authorized"
+	ECONCLICT      = "conflict"
+	EINTERNAL      = "internal"
+	EINVALID       = "invalid"
+	ENOTFOUND      = "not_found"
 )
 
 func (e *Error) Error() string {
