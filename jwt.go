@@ -2,6 +2,7 @@ package common
 
 import (
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -12,7 +13,10 @@ type UserPayload struct {
 	Email string
 }
 
-var jwtKey = os.Getenv("JWT_KEY")
+var (
+	jwtKey = os.Getenv("JWT_KEY")
+	kid    = os.Getenv("JWK_KID")
+)
 
 type claims struct {
 	*UserPayload
@@ -24,13 +28,18 @@ func CreateToken(userPayload *UserPayload) (string, error) {
 }
 
 func CreateTokenWithExpire(userPayload *UserPayload, exp int64) (string, error) {
+	sub := strconv.Itoa(userPayload.ID)
 	claims := &claims{
 		UserPayload: userPayload,
 		StandardClaims: jwt.StandardClaims{
+			Subject:   sub,
 			ExpiresAt: exp,
+			IssuedAt:  time.Now().Unix(),
 		},
 	}
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	at.Header["typ"] = "JWT"
+	at.Header["kid"] = kid
 	token, err := at.SignedString([]byte(jwtKey))
 	if err != nil {
 		return "", err
